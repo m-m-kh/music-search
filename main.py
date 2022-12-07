@@ -1,7 +1,7 @@
 from telegram.ext import CallbackContext ,Updater, MessageHandler, Filters
 from telegram import Update, InlineKeyboardMarkup,InlineKeyboardButton
 from tests.test import findmusic
-
+import os
 updater = Updater('5567723428:AAGqfiF5XlZaC6r0KcBd_rKZZiLfGvxQOCM')
 
 def search(update:Update, cnotext:CallbackContext):
@@ -17,6 +17,6 @@ updater.dispatcher.add_handler(MessageHandler(Filters.command,breaker))
 updater.dispatcher.add_handler(MessageHandler(Filters.text,search,run_async=True))
 
 
-
-# updater.idle()
-updater.start_polling()
+PORT = int(os.environ.get('PORT', 8443))
+updater.start_webhook(listen="0.0.0.0", port=PORT, url_path='5463247683:AAHddBkYmx9hvjKoLU5KvKOPRI21AqTGFVY', webhook_url='https://forward-pics.herokuapp.com/' + '5463247683:AAHddBkYmx9hvjKoLU5KvKOPRI21AqTGFVY')
+updater.idle()
