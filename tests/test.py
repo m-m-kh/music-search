@@ -19,11 +19,13 @@ def findmusic(txt):
                 try:
                     urls.append((re.search(r'^(https?|ftp|file):\/\/(www.)?(.*?)\.(mp3)$',string=str(i['href'])).group(0),i['title']))
                 except KeyError:
-                    urls.append((re.search(r'^(https?|ftp|file):\/\/(www.)?(.*?)\.(mp3)$',string=str(i['href'])).group(0),'دانلود'))
+                    try:
+                        urls.append((re.search(r'^(https?|ftp|file):\/\/(www.)?(.*?)\.(mp3)$',string=str(i['href'])).group(0),'دانلود'))
+                    except:
+                        pass
                 except:
                     pass
-                finally:
-                    continue
+                
     return urls                
             
     
