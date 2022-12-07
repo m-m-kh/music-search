@@ -4,11 +4,12 @@ from tests.test import findmusic
 import os
 updater = Updater('5567723428:AAHfA4UJdJdzG1tBqmNe3xXXOZYTxADHI8I')
 
-def search(update:Update, cnotext:CallbackContext):
+def search(update:Update, context:CallbackContext):
+    msgid = update.message.reply_text('searching on google...').message_id
     result = findmusic(f'آهنگ {update.message.text}')
     keyboard = [[InlineKeyboardButton(text=str(i[1]),url=str(i[0]))] for i in result]
-    update.message.reply_text(text=':)',reply_markup=InlineKeyboardMarkup(keyboard))
-    # print(keyboard)
+    context.bot.edit_message_text(chat_id=update.message.chat_id,message_id=msgid, text=':)',reply_markup=InlineKeyboardMarkup(keyboard))
+
     
 def breaker(update:Update, cnotext:CallbackContext):
     return
