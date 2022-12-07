@@ -1,14 +1,15 @@
 from telegram.ext import CallbackContext ,Updater, MessageHandler, Filters
-from telegram import Update, InlineKeyboardMarkup,InlineKeyboardButton
-from tests.test import findmusic
+from telegram import Update
+from tests.test import findmusic, requests
 import os
 updater = Updater('5567723428:AAHfA4UJdJdzG1tBqmNe3xXXOZYTxADHI8I')
 
 def search(update:Update, context:CallbackContext):
     msgid = update.message.reply_text('searching on google...').message_id
     result = findmusic(f'آهنگ {update.message.text}')
-    keyboard = [[InlineKeyboardButton(text=str(i[1]),url=str(i[0]))] for i in result]
-    context.bot.edit_message_text(chat_id=update.message.chat_id,message_id=msgid, text=':)',reply_markup=InlineKeyboardMarkup(keyboard))
+    for i in result:
+        audio= requests.get(i[0]).content
+        update.message.reply_audio(audio,caption=i[1],timeout=120)
 
     
 def breaker(update:Update, cnotext:CallbackContext):
