@@ -1,5 +1,5 @@
 from telegram.ext import CallbackContext ,Updater, MessageHandler, Filters
-from telegram import Update
+from telegram import Update,ParseMode
 from tests.test import findmusic, requests
 import os
 updater = Updater('5567723428:AAHfA4UJdJdzG1tBqmNe3xXXOZYTxADHI8I')
@@ -7,10 +7,10 @@ updater = Updater('5567723428:AAHfA4UJdJdzG1tBqmNe3xXXOZYTxADHI8I')
 def search(update:Update, context:CallbackContext):
     msgid = update.message.reply_text('searching on google...').message_id
     result = findmusic(f'آهنگ {update.message.text}')
+    context.bot.delete_message(chat_id=update.message.chat_id,message_id=msgid)
     for i in result:
-        audio= requests.get(i[0]).content
-        update.message.reply_audio(audio,caption=i[1],timeout=120)
-
+        update.message.reply_text(f"<a href='{i[0]}'>Download</a>\n{i[1]}",parse_mode=ParseMode.HTML)
+    
     
 def breaker(update:Update, cnotext:CallbackContext):
     return
